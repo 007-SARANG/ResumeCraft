@@ -54,9 +54,12 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`🚀 ResumeCraft Server running on port ${PORT}`);
-  console.log(`📝 Ready to generate ATS-perfect resumes!`);
-});
+// Only start server if not in serverless environment
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`🚀 ResumeCraft Server running on port ${PORT}`);
+    console.log(`📝 Ready to generate ATS-perfect resumes!`);
+  });
+}
 
 module.exports = app;
