@@ -8,10 +8,17 @@ const path = require('path');
 dotenv.config();
 
 // Verify API key is loaded
-if (!process.env.OPENAI_API_KEY) {
-  console.error('⚠️  WARNING: OPENAI_API_KEY is not set in .env file!');
+const aiService = process.env.AI_SERVICE || 'mock';
+console.log(`🤖 Using AI Service: ${aiService}`);
+
+if (aiService === 'openai' && !process.env.OPENAI_API_KEY) {
+  console.error('⚠️  WARNING: OPENAI_API_KEY is not set!');
+} else if (aiService === 'gemini' && !process.env.GEMINI_API_KEY) {
+  console.error('⚠️  WARNING: GEMINI_API_KEY is not set!');
+} else if (aiService === 'groq' && !process.env.GROQ_API_KEY) {
+  console.error('⚠️  WARNING: GROQ_API_KEY is not set!');
 } else {
-  console.log('✅ OpenAI API key loaded successfully');
+  console.log(`✅ ${aiService.toUpperCase()} API configured successfully`);
 }
 
 const app = express();

@@ -18,6 +18,8 @@ function App() {
   const [atsScore, setAtsScore] = useState(null);
   const [showAnalyzer, setShowAnalyzer] = useState(false);
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || '';
+
   const handleGenerateResume = async () => {
     if (!prompt.trim()) {
       toast.error('Please enter your details in the prompt!');
@@ -26,7 +28,7 @@ function App() {
 
     setLoading(true);
     try {
-      const response = await axios.post('/api/resume/generate', {
+      const response = await axios.post(`${API_BASE_URL}/api/resume/generate`, {
         prompt,
         template,
         format
@@ -36,14 +38,14 @@ function App() {
       toast.success('Resume generated successfully! 🎉');
 
       // Calculate ATS score automatically
-      const atsResponse = await axios.post('/api/ats/score', {
+      const atsResponse = await axios.post(`${API_BASE_URL}/api/ats/score`, {
         resumeData: response.data.parsedData
       });
       setAtsScore(atsResponse.data);
 
     } catch (error) {
       console.error('Error generating resume:', error);
-      toast.error('Failed to generate resume. Please try again.');
+      toast.error(error.response?.data?.error || 'Failed to generate resume. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -53,7 +55,7 @@ function App() {
     if (!generatedResume) return;
 
     try {
-      const downloadUrl = `http://localhost:5000${generatedResume.downloadUrl}`;
+      const downloadUrl = `${API_BASE_URL}${generatedResume.downloadUrl}`;
       window.open(downloadUrl, '_blank');
       toast.success('Downloading your resume...');
     } catch (error) {
