@@ -11,7 +11,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![Deploy with Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com)
 
-🔗 **Live Demo**: [https://your-app-name.vercel.app](https://your-app-name.vercel.app) *(Add your Vercel URL here after deployment)*
+🔗 **Live Demo**: [https://resume-craft-psi-nine.vercel.app](https://resume-craft-psi-nine.vercel.app)
 
 > *"Most resumes don't fail because of skills - they fail because they're not structured the way recruiters or ATS read them."* — **Gifty Mehra**
 
