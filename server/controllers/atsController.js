@@ -1,19 +1,15 @@
-const openAIService = require('../services/aiService');
-const geminiService = require('../services/geminiService');
-const groqService = require('../services/groqService');
-const mockAIService = require('../services/mockAIService');
-
-// Select AI service based on environment variable
-let aiService;
+// Select AI service based on environment variable (lazy load to avoid initialization errors)
 const serviceType = process.env.AI_SERVICE || 'mock';
+
+let aiService;
 if (serviceType === 'gemini') {
-  aiService = geminiService;
+  aiService = require('../services/geminiService');
 } else if (serviceType === 'openai') {
-  aiService = openAIService;
+  aiService = require('../services/aiService');
 } else if (serviceType === 'groq') {
-  aiService = groqService;
+  aiService = require('../services/groqService');
 } else {
-  aiService = mockAIService;
+  aiService = require('../services/mockAIService');
 }
 
 exports.calculateATSScore = async (req, res) => {

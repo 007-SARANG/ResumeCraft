@@ -2,8 +2,11 @@ const axios = require('axios');
 
 class GeminiAIService {
   constructor() {
-    this.apiKey = process.env.GEMINI_API_KEY;
+    this.apiKey = process.env.GEMINI_API_KEY || 'dummy-key-not-used';
     this.model = 'gemini-pro';
+    if (!process.env.GEMINI_API_KEY) {
+      console.error('⚠️  Gemini API key not found. This service will not work.');
+    }
   }
 
   getApiUrl() {

@@ -1,7 +1,12 @@
 const OpenAI = require('openai');
 
+// Only initialize if API key is available
+if (!process.env.OPENAI_API_KEY) {
+  console.error('⚠️  OpenAI API key not found. This service will not work.');
+}
+
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY || 'dummy-key-not-used',
 });
 
 class AIService {

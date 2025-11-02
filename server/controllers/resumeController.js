@@ -1,25 +1,22 @@
-const openAIService = require('../services/aiService');
-const geminiService = require('../services/geminiService');
-const groqService = require('../services/groqService');
-const mockAIService = require('../services/mockAIService');
 const pdfGenerator = require('../services/pdfGenerator');
 const docxGenerator = require('../services/docxGenerator');
 const path = require('path');
 const fs = require('fs');
 
-// Select AI service based on environment variable
-let aiService;
+// Select AI service based on environment variable (lazy load to avoid initialization errors)
 const serviceType = process.env.AI_SERVICE || 'mock';
-if (serviceType === 'gemini') {
-  aiService = geminiService;
-} else if (serviceType === 'openai') {
-  aiService = openAIService;
-} else if (serviceType === 'groq') {
-  aiService = groqService;
-} else {
-  aiService = mockAIService;
-}
 console.log(`🤖 Using AI Service: ${serviceType}`);
+
+let aiService;
+if (serviceType === 'gemini') {
+  aiService = require('../services/geminiService');
+} else if (serviceType === 'openai') {
+  aiService = require('../services/aiService');
+} else if (serviceType === 'groq') {
+  aiService = require('../services/groqService');
+} else {
+  aiService = require('../services/mockAIService');
+}
 
 // Ensure generated-resumes directory exists
 const outputDir = path.join(__dirname, '../../generated-resumes');

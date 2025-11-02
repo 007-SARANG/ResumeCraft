@@ -2,9 +2,13 @@ const axios = require('axios');
 
 class GroqAIService {
   constructor() {
-    this.apiKey = process.env.GROQ_API_KEY;
+    this.apiKey = process.env.GROQ_API_KEY || 'dummy-key-not-used';
     this.baseUrl = 'https://api.groq.com/openai/v1/chat/completions';
     this.model = 'llama-3.3-70b-versatile'; // Latest fast and powerful model
+    
+    if (!process.env.GROQ_API_KEY) {
+      console.error('⚠️  Groq API key not found. This service will not work.');
+    }
   }
 
   async parsePrompt(prompt) {
