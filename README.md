@@ -36,14 +36,17 @@
 
 ### Landing Page & Prompt Input
 ![Landing Page](./screenshots/landing-page.png)
+
 *Simple, intuitive interface - just describe yourself in natural language*
 
 ### Live Preview & Template Selection
 ![Resume Preview](./screenshots/resume-preview.png)
+
 *Real-time preview with 3 professional templates: Classic, Modern, and Minimal*
 
 ### ATS Score Analysis
 ![ATS Analysis](./screenshots/ats-score.png)
+
 *Get instant ATS score and actionable suggestions to improve your resume*
 
 </div>
