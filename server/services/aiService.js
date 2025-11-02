@@ -1,13 +1,19 @@
 const OpenAI = require('openai');
 
-// Only initialize if API key is available
-if (!process.env.OPENAI_API_KEY) {
-  console.error('⚠️  OpenAI API key not found. This service will not work.');
-}
+// Only initialize if this service is being used
+let openai = null;
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || 'dummy-key-not-used',
-});
+function getOpenAI() {
+  if (!openai) {
+    if (!process.env.OPENAI_API_KEY) {
+      throw new Error('OpenAI API key not found. Please set OPENAI_API_KEY environment variable.');
+    }
+    openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+  }
+  return openai;
+}
 
 class AIService {
   async parsePrompt(prompt) {
@@ -56,7 +62,7 @@ Return this exact JSON structure:
 
 Extract ALL information from the prompt. Use empty strings or arrays for missing data. Return ONLY the JSON object.`;
 
-      const response = await openai.chat.completions.create({
+      const response = await getOpenAI().chat.completions.create({
         model: "gpt-3.5-turbo",
         messages: [
           { role: "system", content: systemPrompt },
@@ -110,7 +116,7 @@ Skills: ${resumeData.skills?.technical?.slice(0, 5).join(', ')}
 Experience: ${resumeData.experience?.length || 0} positions
 Key Achievements: ${resumeData.achievements?.slice(0, 2).join('; ')}`;
 
-      const response = await openai.chat.completions.create({
+      const response = await getOpenAI().chat.completions.create({
         model: "gpt-3.5-turbo",
         messages: [
           { role: "system", content: systemPrompt },
@@ -148,7 +154,7 @@ Return ONLY the enhanced bullets, one per line.`;
         if (item.bullets && item.bullets.length > 0) {
           const userPrompt = `Enhance these bullet points:\n${item.bullets.join('\n')}`;
 
-          const response = await openai.chat.completions.create({
+          const response = await getOpenAI().chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: [
               { role: "system", content: systemPrompt },
@@ -200,7 +206,7 @@ Return JSON: {"score": number, "feedback": "text", "suggestions": ["suggestion1"
       const userPrompt = `Analyze this resume data:
 ${JSON.stringify(resumeData, null, 2)}`;
 
-      const response = await openai.chat.completions.create({
+      const response = await getOpenAI().chat.completions.create({
         model: "gpt-3.5-turbo",
         messages: [
           { role: "system", content: systemPrompt },
@@ -253,7 +259,7 @@ ${jobDescription}
 Resume Skills: ${resumeData.skills?.technical?.join(', ')}
 Resume Experience: ${resumeData.experience?.map(e => e.bullets?.join(' ')).join(' ')}`;
 
-      const response = await openai.chat.completions.create({
+      const response = await getOpenAI().chat.completions.create({
         model: "gpt-3.5-turbo",
         messages: [
           { role: "system", content: systemPrompt },

@@ -18,10 +18,14 @@ if (serviceType === 'gemini') {
   aiService = require('../services/mockAIService');
 }
 
-// Ensure generated-resumes directory exists
-const outputDir = path.join(__dirname, '../../generated-resumes');
+// Ensure generated-resumes directory exists (skip in serverless)
+const outputDir = process.env.VERCEL ? '/tmp/generated-resumes' : path.join(__dirname, '../../generated-resumes');
 if (!fs.existsSync(outputDir)) {
-  fs.mkdirSync(outputDir, { recursive: true });
+  try {
+    fs.mkdirSync(outputDir, { recursive: true });
+  } catch (err) {
+    console.log('Note: Running in serverless environment, using /tmp for file storage');
+  }
 }
 
 exports.generateResume = async (req, res) => {
@@ -45,17 +49,18 @@ exports.generateResume = async (req, res) => {
     parsedData.experience = await aiService.enhanceBulletPoints(parsedData.experience);
     parsedData.projects = await aiService.enhanceBulletPoints(parsedData.projects);
 
-    // Step 4: Generate resume file
+    // Step 4: Generate resume file (use /tmp in serverless)
+    const storageDir = process.env.VERCEL ? '/tmp' : outputDir;
     let filename;
     let filePath;
 
     if (format === 'pdf') {
       filename = `${parsedData.name.replace(/\s+/g, '_')}_Resume.pdf`;
-      filePath = path.join(outputDir, filename);
+      filePath = path.join(storageDir, filename);
       await pdfGenerator.generatePDF(parsedData, template, filePath);
     } else if (format === 'docx') {
       filename = `${parsedData.name.replace(/\s+/g, '_')}_Resume.docx`;
-      filePath = path.join(outputDir, filename);
+      filePath = path.join(storageDir, filename);
       await docxGenerator.generateDOCX(parsedData, template, filePath);
     } else {
       return res.status(400).json({ error: 'Invalid format. Use pdf or docx' });
@@ -83,7 +88,8 @@ exports.generateResume = async (req, res) => {
 exports.downloadResume = async (req, res) => {
   try {
     const { filename } = req.params;
-    const filePath = path.join(outputDir, filename);
+    const storageDir = process.env.VERCEL ? '/tmp' : outputDir;
+    const filePath = path.join(storageDir, filename);
 
     if (!fs.existsSync(filePath)) {
       return res.status(404).json({ error: 'File not found' });
