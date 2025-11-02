@@ -1,0 +1,31 @@
+{
+  "name": "resumecraft",
+  "version": "1.0.0",
+  "description": "AI-Powered ATS-Perfect Resume Generator - Led by Ex-Amazon HR Gifty Mehra",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "concurrently \"nodemon server/server.js\" \"npm run client\"",
+    "client": "npm start --prefix client",
+    "install-all": "npm install && cd client && npm install",
+    "build": "cd client && npm run build"
+  },
+  "keywords": ["resume", "ai", "ats", "generator"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "axios": "^1.6.0",
+    "pdfkit": "^0.13.0",
+    "docx": "^8.5.0",
+    "openai": "^4.20.0",
+    "body-parser": "^1.20.2",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "concurrently": "^8.2.2"
+  }
+}

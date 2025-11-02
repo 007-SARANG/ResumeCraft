@@ -1,0 +1,147 @@
+.ats-analyzer {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  overflow: hidden;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.analyzer-header {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  padding: 20px;
+}
+
+.analyzer-header h2 {
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.score-display {
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.score-circle {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.score-inner {
+  width: 140px;
+  height: 140px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.score-number {
+  font-size: 48px;
+  font-weight: 800;
+  color: #333;
+  line-height: 1;
+}
+
+.score-label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.feedback-section,
+.suggestions-section {
+  padding: 20px 25px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.feedback-section h3,
+.suggestions-section h3 {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.feedback-section p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.suggestions-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suggestions-section li {
+  font-size: 14px;
+  color: #555;
+  padding: 10px;
+  background: #f8f9fa;
+  border-left: 3px solid #f5576c;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  line-height: 1.5;
+}
+
+.ats-info {
+  background: #f8f9fa;
+  padding: 15px 25px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.info-text {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.info-text strong {
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .score-circle {
+    width: 150px;
+    height: 150px;
+  }
+
+  .score-inner {
+    width: 110px;
+    height: 110px;
+  }
+
+  .score-number {
+    font-size: 36px;
+  }
+
+  .score-label {
+    font-size: 12px;
+  }
+}
